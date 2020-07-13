@@ -5,6 +5,10 @@ import "./App.css";
 
 import CreateUser from "./components/createUser.component";
 import LoginUser from "./components/login.component";
+import AddSPD from "./components/spdData.component";
+import SPDSelector from "./components/selectSPD.component";
+import SaveRoom from "./components/saveRoom.component";
+import Home from "./components/home.component";
 
 class App extends Component {
   render() {
@@ -12,23 +16,23 @@ class App extends Component {
       <Router>
         <div>
           <nav className="navbar navbar-expand navbar-dark bg-dark">
-            <a href="/tutorials" className="navbar-brand">
+            <a href="/home" className="navbar-brand">
               Circadian Calculator
             </a>
             <div className="navbar-nav mr-auto">
               <li className="nav-item">
-                <Link to={"/tutorials"} className="nav-link">
-                  Application 1
+                <Link to={"/app1"} className="nav-link">
+                  Normalized SPD
                 </Link>
               </li>
               <li className="nav-item">
-                <Link to={"/tutorials"} className="nav-link">
-                  Application 2
+                <Link to={"/saveroom"} className="nav-link">
+                  Save Room
                 </Link>
               </li>
               <li className="nav-item">
-                <Link to={"/tutorials"} className="nav-link">
-                  Application 3
+                <Link to={"/selectspd"} className="nav-link">
+                  Select Ratio
                 </Link>
               </li>
               <li className="nav-item">
@@ -46,6 +50,10 @@ class App extends Component {
 
           <div className="container mt-3">
             <Switch>
+              <Route exact path="/home" component={Home} />
+              <Route exact path="/saveroom" component={SaveRoom} />
+              <Route exact path="/selectspd" component={SPDSelector} />
+              <Route exact path="/app1" component={AddSPD} />
               <Route exact path="/login" component={LoginUser} />
               <Route exact path="/create" component={CreateUser} />
             </Switch>

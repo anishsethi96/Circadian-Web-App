@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import CreateUserDataService from "../services/createUser.service";
 
-export default class AddUser extends Component {
+export default class CreateUser extends Component {
   constructor(props) {
     super(props);
     this.onChangeUID = this.onChangeUID.bind(this);

@@ -5,11 +5,15 @@
 }
 
 .submit-form {
-  max-width: 300px;
+  max-width: 400px;
   margin: auto;
 }
 
 .edit-form {
   max-width: 300px;
   margin: auto;
+}
+
+.button {
+ margin: 10px 10px 10px;
 }

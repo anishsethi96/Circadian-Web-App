@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import LoginDataService from "../services/login.service";
 
 export default class LoginUser extends Component {
@@ -34,12 +33,14 @@ searchUser() {
     password: this.state.password,
   };
 
+  console.log(this.state.searchUser);
+
   LoginDataService.get(this.state.searchUser)
     .then(response => {
       this.setState({
         userpass: response.data
       });
-      if (response.data == data.password) {
+      if (response.data === data.password) {
         this.setState({
           loginvalue: true
         });
@@ -51,7 +52,7 @@ searchUser() {
 }
 
   render() {
-    const { searchUser} = this.state;
+    const {searchUser} = this.state;
     return (
       <div className="submit-form">
       {this.state.loginvalue ? (
@@ -59,7 +60,7 @@ searchUser() {
           <h4>You logged in successfully!</h4>
         </div>
       ) : (
-      <div className="submit-form">
+        <div className="submit-form">
           <div>
             <div className="form-group">
               <label htmlFor="title">Username</label>
@@ -69,7 +70,6 @@ searchUser() {
               <label htmlFor="description">Password</label>
               <input type="password" className="form-control" id="password" required value={this.state.password} onChange={this.onChangePassword} name="password" />
             </div>
-
             <button onClick={this.searchUser} className="btn btn-success">
               login
             </button>
