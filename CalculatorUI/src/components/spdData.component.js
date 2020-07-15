@@ -1,15 +1,14 @@
 import React, { Component } from "react";
-import CreateUserDataService from "../services/createUser.service";
+import AddSPDDataService from "../services/sdpData.service";
+import { CSVReader } from 'react-papaparse'
 
-export default class CreateUser extends Component {
+export default class AddSPD extends Component {
   constructor(props) {
     super(props);
     this.onChangeUID = this.onChangeUID.bind(this);
     this.onChangePassword = this.onChangePassword.bind(this);
     this.onChangeFirstName = this.onChangeFirstName.bind(this);
     this.onChangeLastName = this.onChangeLastName.bind(this);
-    this.onChangeEmailID = this.onChangeEmailID.bind(this);
-    this.onChangeCompany = this.onChangeCompany.bind(this);
     this.saveUserInfo = this.saveUserInfo.bind(this);
 
     this.state = {
@@ -17,8 +16,6 @@ export default class CreateUser extends Component {
       password: "",
       first_name: "",
       last_name: "",
-      email_id: "",
-      company_name: "",
       submitted: false
     };
   }
@@ -46,32 +43,30 @@ export default class CreateUser extends Component {
       last_name: e.target.value
     });
   }
-  onChangeEmailID(e) {
-    this.setState({
-      email_id: e.target.value
-    });
-  }
-
-  onChangeCompany(e) {
-    this.setState({
-      company_name: e.target.value
-    });
-  }
 
   saveUserInfo() {
     var data = {
-      uid: this.state.uid,
-      password: this.state.password,
-      first_name: this.state.first_name,
-      last_name: this.state.last_name,
-      email_id: this.state.email_id,
-      company_name: this.state.company_name
+      user_uid: this.state.uid,
+      spd_name: this.state.password,
+      spd_value: this.state.first_name,
+      lux_level: this.state.last_name,
     };
 
-    console.log(data);
-
-    CreateUserDataService.create(data)
+    AddSPDDataService.create(data)
     this.setState({submitted: true});
+  }
+
+    handleOnDrop = (data) => {
+    console.log('File Uploaded')
+    for (var i = 0; i < data.length; i++)
+    {
+      console.log(data[i].data)
+    }
+    console.log('---------------------------')
+  }
+
+  handleOnError = (err, file, inputElem, reason) => {
+    console.log(err)
   }
 
   render() {
@@ -84,28 +79,25 @@ export default class CreateUser extends Component {
             </div>
 
             <div className="form-group">
-              <label htmlFor="description">Password</label>
-              <input type="password" className="form-control" id="password" required value={this.state.password} onChange={this.onChangePassword} name="password" />
+              <label htmlFor="description">SPD Name</label>
+              <input type="text" className="form-control" id="password" required value={this.state.password} onChange={this.onChangePassword} name="password" />
             </div>
 
             <div className="form-group">
-              <label htmlFor="title">First Name</label>
+              <label htmlFor="title">Import SPD values</label>
               <input type="text" className="form-control" id="first_name" required value={this.state.first_name} onChange={this.onChangeFirstName} name="first_name"/>
+              <CSVReader
+                onDrop={this.handleOnDrop}
+                onError={this.handleOnError}
+                addRemoveButton
+              >
+                <span>Drop CSV file here or click to upload.</span>
+              </CSVReader>
             </div>
 
             <div className="form-group">
-              <label htmlFor="title">Last Name</label>
+              <label htmlFor="title">Lux</label>
               <input type="text" className="form-control" id="last_name" required value={this.state.last_name} onChange={this.onChangeLastName} name="last_name"/>
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="title">Email ID</label>
-              <input type="text" className="form-control" id="email_id" required value={this.state.email_id} onChange={this.onChangeEmailID} name="email_id"/>
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="title">Company</label>
-              <input type="text" className="form-control" id="company_name" required value={this.state.company_name} onChange={this.onChangeCompany} name="company_name"/>
             </div>
 
             <button onClick={this.saveUserInfo} className="btn btn-success">

@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import LoginDataService from "../services/login.service";
 
 export default class LoginUser extends Component {
@@ -34,12 +33,14 @@ searchUser() {
     password: this.state.password,
   };
 
+  console.log(this.state.searchUser);
+
   LoginDataService.get(this.state.searchUser)
     .then(response => {
       this.setState({
         userpass: response.data
       });
-      if (response.data == data.password) {
+      if (response.data === data.password) {
         this.setState({
           loginvalue: true
         });
@@ -51,7 +52,7 @@ searchUser() {
 }
 
   render() {
-    const { searchUser} = this.state;
+    const {searchUser} = this.state;
     return (
       <div className="submit-form">
       {this.state.loginvalue ? (
