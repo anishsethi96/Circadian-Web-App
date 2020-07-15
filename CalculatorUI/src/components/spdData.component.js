@@ -14,7 +14,7 @@ export default class AddSPD extends Component {
     this.state = {
       uid: "",
       password: "",
-      first_name: "",
+      first_name: {},
       last_name: "",
       submitted: false
     };
@@ -38,6 +38,19 @@ export default class AddSPD extends Component {
     });
   }
 
+  handleOnDrop = (data) => {
+    console.log('File Uploaded')
+    for (var i = 0; i < data.length; i++)
+    {
+      this.state.first_name[data[i].data[0]] =  data[i].data[1];
+    }
+    console.log(this.state.first_name)
+  }
+
+  handleOnError = (err, file, inputElem, reason) => {
+    console.log(err)
+  }
+
   onChangeLastName(e) {
     this.setState({
       last_name: e.target.value
@@ -56,19 +69,6 @@ export default class AddSPD extends Component {
     this.setState({submitted: true});
   }
 
-    handleOnDrop = (data) => {
-    console.log('File Uploaded')
-    for (var i = 0; i < data.length; i++)
-    {
-      console.log(data[i].data)
-    }
-    console.log('---------------------------')
-  }
-
-  handleOnError = (err, file, inputElem, reason) => {
-    console.log(err)
-  }
-
   render() {
     return (
       <div className="submit-form">
@@ -84,8 +84,12 @@ export default class AddSPD extends Component {
             </div>
 
             <div className="form-group">
+              <label htmlFor="title">Lux</label>
+              <input type="text" className="form-control" id="last_name" required value={this.state.last_name} onChange={this.onChangeLastName} name="last_name"/>
+            </div>
+
+            <div className="form-group">
               <label htmlFor="title">Import SPD values</label>
-              <input type="text" className="form-control" id="first_name" required value={this.state.first_name} onChange={this.onChangeFirstName} name="first_name"/>
               <CSVReader
                 onDrop={this.handleOnDrop}
                 onError={this.handleOnError}
@@ -93,11 +97,6 @@ export default class AddSPD extends Component {
               >
                 <span>Drop CSV file here or click to upload.</span>
               </CSVReader>
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="title">Lux</label>
-              <input type="text" className="form-control" id="last_name" required value={this.state.last_name} onChange={this.onChangeLastName} name="last_name"/>
             </div>
 
             <button onClick={this.saveUserInfo} className="btn btn-success">
