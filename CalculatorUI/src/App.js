@@ -6,6 +6,7 @@ import "./App.css";
 import CreateUser from "./components/createUser.component";
 import LoginUser from "./components/login.component";
 import AddSPD from "./components/spdData.component";
+import SPDSelector from "./components/selectSPD.component";
 
 class App extends Component {
   render() {
@@ -23,7 +24,7 @@ class App extends Component {
                 </Link>
               </li>
               <li className="nav-item">
-                <Link to={"/tutorials"} className="nav-link">
+                <Link to={"/selectspd"} className="nav-link">
                   Application 2
                 </Link>
               </li>
@@ -47,6 +48,7 @@ class App extends Component {
 
           <div className="container mt-3">
             <Switch>
+              <Route exact path="/selectspd" component={SPDSelector} />
               <Route exact path="/app1" component={AddSPD} />
               <Route exact path="/login" component={LoginUser} />
               <Route exact path="/create" component={CreateUser} />

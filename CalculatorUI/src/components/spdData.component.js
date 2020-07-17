@@ -1,21 +1,24 @@
 import React, { Component } from "react";
 import AddSPDDataService from "../services/sdpData.service";
 import { CSVReader } from 'react-papaparse'
+var sum = 0;
+var tsum = 0;
+var cbp = 0;
 
 export default class AddSPD extends Component {
   constructor(props) {
     super(props);
     this.onChangeUID = this.onChangeUID.bind(this);
-    this.onChangePassword = this.onChangePassword.bind(this);
+    this.onChangeSPDName = this.onChangeSPDName.bind(this);
     this.onChangeFirstName = this.onChangeFirstName.bind(this);
-    this.onChangeLastName = this.onChangeLastName.bind(this);
+    this.onChangeSPDValue = this.onChangeSPDValue.bind(this);
     this.saveUserInfo = this.saveUserInfo.bind(this);
 
     this.state = {
       uid: "",
-      password: "",
-      first_name: {},
-      last_name: "",
+      spd_name: "",
+      spd_value: {},
+      lux_level: "",
       submitted: false
     };
   }
@@ -26,15 +29,15 @@ export default class AddSPD extends Component {
     });
   }
 
-  onChangePassword(e) {
+  onChangeSPDName(e) {
     this.setState({
-      password: e.target.value
+      spd_name: e.target.value
     });
   }
 
   onChangeFirstName(e) {
     this.setState({
-      first_name: e.target.value
+      spd_value: e.target.value
     });
   }
 
@@ -42,27 +45,38 @@ export default class AddSPD extends Component {
     console.log('File Uploaded')
     for (var i = 0; i < data.length; i++)
     {
-      this.state.first_name[data[i].data[0]] =  data[i].data[1];
+      this.state.spd_value[data[i].data[0]] =  data[i].data[1];
     }
-    console.log(this.state.first_name)
+
+    for (i = 380; i < 781; i++)
+    {
+      tsum = tsum + Number(this.state.spd_value[i]);
+    }
+
+    // Access JSON values needed
+    for (i = 438; i < 493; i++)
+    {
+      sum = sum + Number(this.state.spd_value[i]);
+    }
+    console.log(sum/tsum*100)
   }
 
   handleOnError = (err, file, inputElem, reason) => {
     console.log(err)
   }
 
-  onChangeLastName(e) {
+  onChangeSPDValue(e) {
     this.setState({
-      last_name: e.target.value
+      lux_level: e.target.value
     });
   }
 
   saveUserInfo() {
     var data = {
       user_uid: this.state.uid,
-      spd_name: this.state.password,
-      spd_value: this.state.first_name,
-      lux_level: this.state.last_name,
+      spd_name: this.state.spd_name,
+      spd_value: this.state.spd_value,
+      lux_level: this.state.lux_level,
     };
 
     AddSPDDataService.create(data)
@@ -80,12 +94,12 @@ export default class AddSPD extends Component {
 
             <div className="form-group">
               <label htmlFor="description">SPD Name</label>
-              <input type="text" className="form-control" id="password" required value={this.state.password} onChange={this.onChangePassword} name="password" />
+              <input type="text" className="form-control" id="spd_name" required value={this.state.spd_name} onChange={this.onChangeSPDName} name="spd_name" />
             </div>
 
             <div className="form-group">
               <label htmlFor="title">Lux</label>
-              <input type="text" className="form-control" id="last_name" required value={this.state.last_name} onChange={this.onChangeLastName} name="last_name"/>
+              <input type="text" className="form-control" id="lux_level" required value={this.state.lux_level} onChange={this.onChangeSPDValue} name="lux_level"/>
             </div>
 
             <div className="form-group">
@@ -100,7 +114,7 @@ export default class AddSPD extends Component {
             </div>
 
             <button onClick={this.saveUserInfo} className="btn btn-success">
-              Submit
+              Calculate and Save SPD
             </button>
           </div>
       </div>
