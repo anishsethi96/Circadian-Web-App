@@ -5,38 +5,38 @@ import { Link } from "react-router-dom";
 export default class SPDSelector extends Component {
   constructor(props) {
     super(props);
-    this.onChangeSearchTitle = this.onChangeSearchTitle.bind(this);
-    this.setActiveTutorial = this.setActiveTutorial.bind(this);
-    this.searchTitle = this.searchTitle.bind(this);
+    this.onChangesearchSPD = this.onChangesearchSPD.bind(this);
+    this.setActiveSelection = this.setActiveSelection.bind(this);
+    this.searchSPD = this.searchSPD.bind(this);
 
     this.state = {
-      tutorials: [],
-      currentTutorial: null,
+      spds: [],
+      currentspd: null,
       currentIndex: -1,
-      searchTitle: ""
+      searchSPD: ""
     };
   }
 
-  onChangeSearchTitle(e) {
-    const searchTitle = e.target.value;
+  onChangesearchSPD(e) {
+    const searchSPD = e.target.value;
 
     this.setState({
-      searchTitle: searchTitle
+      searchSPD: searchSPD
     });
   }
 
-  setActiveTutorial(tutorial, index) {
+  setActiveSelection(spd, index) {
     this.setState({
-      currentTutorial: tutorial,
+      currentspd: spd,
       currentIndex: index
     });
   }
 
-  searchTitle() {
-    SelectSPDService.get(this.state.searchTitle)
+  searchSPD() {
+    SelectSPDService.get(this.state.searchSPD)
       .then(response => {
         this.setState({
-          tutorials: response.data
+          spds: response.data
         });
         console.log(response.data);
       })
@@ -46,15 +46,15 @@ export default class SPDSelector extends Component {
   }
 
   render() {
-    const { searchTitle, tutorials, currentTutorial, currentIndex } = this.state;
+    const { searchSPD, spds, currentspd, currentIndex } = this.state;
 
     return (
       <div className="list row">
         <div className="col-md-8">
           <div className="input-group mb-3">
-            <input type="text" className="form-control" placeholder="Search by title" value={searchTitle} onChange={this.onChangeSearchTitle} />
+            <input type="text" className="form-control" placeholder="Search by title" value={searchSPD} onChange={this.onChangesearchSPD} />
             <div className="input-group-append">
-              <button className="btn btn-outline-secondary" type="button" onClick={this.searchTitle}>
+              <button className="btn btn-outline-secondary" type="button" onClick={this.searchSPD}>
                 Search
               </button>
             </div>
@@ -64,43 +64,43 @@ export default class SPDSelector extends Component {
           <h4>SPD List</h4>
 
           <ul className="list-group">
-            {tutorials &&
-              tutorials.map((tutorial, index) => (
+            {spds &&
+              spds.map((spd, index) => (
                 <li className = {
                   "list-group-item " + (index === currentIndex ? "active" : "")
                 }
                 onClick = {
-                  () => this.setActiveTutorial(tutorial, index)
+                  () => this.setActiveSelection(spd, index)
                 } key = { index }>
-                  {tutorial.spd_name}
+                  {spd.spd_name}
                 </li>
               ))}
           </ul>
         </div>
         <div className="col-md-6">
-          {currentTutorial ? (
+          {currentspd ? (
             <div>
               <h4>Saved SPD</h4>
               <div>
                 <label>
                   <strong>User ID : </strong>
                 </label>{" "}
-                {currentTutorial.user_uid}
+                {currentspd.user_uid}
               </div>
               <div>
                 <label>
                   <strong>Name : </strong>
                 </label>{" "}
-                {currentTutorial.spd_name}
+                {currentspd.spd_name}
               </div>
               <div>
                 <label>
                   <strong>SPD ID : </strong>
                 </label>{" "}
-                {currentTutorial.spd_id}
+                {currentspd.spd_id}
               </div>
               <Link
-                to={"/tutorials/" + currentTutorial.id}
+                to={"/spds/" + currentspd.id}
                 className="badge badge-warning"
               >
                 select
@@ -109,7 +109,7 @@ export default class SPDSelector extends Component {
           ) : (
             <div>
               <br />
-              <p>Please click on a Tutorial...</p>
+              <p>Please click on a spd...</p>
             </div>
           )}
         </div>
