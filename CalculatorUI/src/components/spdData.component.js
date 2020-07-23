@@ -22,7 +22,6 @@ export default class AddSPD extends Component {
     this.onChangeFirstName = this.onChangeFirstName.bind(this);
     this.onChangeSPDValue = this.onChangeSPDValue.bind(this);
     this.saveUserInfo = this.saveUserInfo.bind(this);
-    this.onChangesearchSPD = this.onChangesearchSPD.bind(this);
     this.setActiveSelection = this.setActiveSelection.bind(this);
     this.searchSPD = this.searchSPD.bind(this);
 
@@ -35,7 +34,6 @@ export default class AddSPD extends Component {
       spds: [],
       currentspd: null,
       currentIndex: -1,
-      searchSPD: ""
     };
   }
 
@@ -57,6 +55,19 @@ export default class AddSPD extends Component {
     });
   }
 
+  onChangeSPDValue(e) {
+    this.setState({
+      lux_level: e.target.value
+    });
+  }
+
+  setActiveSelection(spd, index) {
+    this.setState({
+      currentspd: spd,
+      currentIndex: index
+    });
+  }
+
   handleOnDrop = (data) => {
     console.log('File Uploaded')
     for (var i = 0; i < data.length; i++)
@@ -67,12 +78,6 @@ export default class AddSPD extends Component {
 
   handleOnError = (err, file, inputElem, reason) => {
     console.log(err)
-  }
-
-  onChangeSPDValue(e) {
-    this.setState({
-      lux_level: e.target.value
-    });
   }
 
   saveUserInfo() {
@@ -105,23 +110,8 @@ export default class AddSPD extends Component {
     console.log(sum/tsum*100);
   }
 
-  onChangesearchSPD(e) {
-    const searchSPD = e.target.value;
-
-    this.setState({
-      searchSPD: searchSPD
-    });
-  }
-
-  setActiveSelection(spd, index) {
-    this.setState({
-      currentspd: spd,
-      currentIndex: index
-    });
-  }
-
   searchSPD() {
-    SelectSPDService.get(this.state.searchSPD)
+    SelectSPDService.get(this.state.uid)
       .then(response => {
         this.setState({
           spds: response.data
@@ -144,6 +134,15 @@ export default class AddSPD extends Component {
               <label htmlFor="title">Username</label>
               <input type="text" className="form-control" id="uid" required value={this.state.uid} onChange={this.onChangeUID} name="uid"/>
             </div>
+            <div className="col-md-8">
+              <div className="input-group mb-3">
+                <div className="input-group-append">
+                  <button className="btn btn-outline-secondary" type="button" onClick={this.searchSPD}>
+                    Search
+                  </button>
+                </div>
+              </div>
+            </div>
 
             <div className="form-group">
               <label htmlFor="description">SPD Name</label>
@@ -165,33 +164,10 @@ export default class AddSPD extends Component {
                 <span>Drop CSV file here or click to upload.</span>
               </CSVReader>
             </div>
-            <div className="second">
-              <div className="col-md-12 text-center">
-                <form>
-                  <button onClick={this.saveUserInfo} className="btn btn-success button">
-                    Calculate
-                  </button>
-                  <button className="btn btn-success button">
-                  <Link to = {"/saveroom"} style={{ textDecoration: 'none', color: "white"}}>
-                    Save a Room
-                  </Link>
-                  </button>
-                </form>
-              </div>
-            </div>
           </div>
 
           <div className="list row">
-            <div className="col-md-8">
-              <div className="input-group mb-3">
-                <input type="text" className="form-control" placeholder="Search by title" value={searchSPD} onChange={this.onChangesearchSPD} />
-                <div className="input-group-append">
-                  <button className="btn btn-outline-secondary" type="button" onClick={this.searchSPD}>
-                    Search
-                  </button>
-                </div>
-              </div>
-            </div>
+
             <div className="col-md-6">
               Select 2 SPD values for the conversion ratio
               <br/>
@@ -245,6 +221,21 @@ export default class AddSPD extends Component {
                   <p>Please click on a spd...</p>
                 </div>
               )}
+            </div>
+          </div>
+
+          <div className="second">
+            <div className="col-md-12 text-center">
+              <form>
+                <button onClick={this.saveUserInfo} className="btn btn-success button">
+                  Calculate
+                </button>
+                <button className="btn btn-success button">
+                <Link to = {"/saveroom"} style={{ textDecoration: 'none', color: "white"}}>
+                  Save a Room
+                </Link>
+                </button>
+              </form>
             </div>
           </div>
 
