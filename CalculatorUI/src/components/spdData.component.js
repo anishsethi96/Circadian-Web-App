@@ -148,117 +148,117 @@ export default class AddSPD extends Component {
     const { searchSPD, spds, currentspd, currentIndex } = this.state;
 
     return (
-      <div className="submit-form">
-          <div>
-            <div className="form-group">
-              <label htmlFor="title">Username</label>
-              <input type="text" className="form-control" id="uid" required value={this.state.uid} onChange={this.onChangeUID} name="uid"/>
-            </div>
-            <div className="col-md-8">
-              <div className="input-group mb-3">
-                <div className="input-group-append">
-                  <button className="btn btn-outline-secondary" type="button" onClick={this.searchSPD}>
-                    Search
-                  </button>
+      <div className="container">
+        <div className="one">
+            <div>
+              <div className="form-group">
+                <label htmlFor="title">Username</label>
+                <input type="text" className="form-control" id="uid" required value={this.state.uid} onChange={this.onChangeUID} name="uid"/>
+              </div>
+              <div className="col-md-8">
+                <div className="input-group mb-3">
+                  <div className="input-group-append">
+                    <button className="btn btn-outline-secondary" type="button" onClick={this.searchSPD}>
+                      Search
+                    </button>
+                  </div>
                 </div>
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="description">SPD Name</label>
+                <input type="text" className="form-control" id="spd_name" required value={this.state.spd_name} onChange={this.onChangeSPDName} name="spd_name" />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="title">Lux</label>
+                <input type="text" className="form-control" id="lux_level" required value={this.state.lux_level} onChange={this.onChangeSPDValue} name="lux_level"/>
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="title">Import SPD values</label>
+                <CSVReader
+                  onDrop={this.handleOnDrop}
+                  onError={this.handleOnError}
+                  addRemoveButton
+                >
+                  <span>Drop CSV file here or click to upload.</span>
+                </CSVReader>
               </div>
             </div>
 
-            <div className="form-group">
-              <label htmlFor="description">SPD Name</label>
-              <input type="text" className="form-control" id="spd_name" required value={this.state.spd_name} onChange={this.onChangeSPDName} name="spd_name" />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="title">Lux</label>
-              <input type="text" className="form-control" id="lux_level" required value={this.state.lux_level} onChange={this.onChangeSPDValue} name="lux_level"/>
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="title">Import SPD values</label>
-              <CSVReader
-                onDrop={this.handleOnDrop}
-                onError={this.handleOnError}
-                addRemoveButton
-              >
-                <span>Drop CSV file here or click to upload.</span>
-              </CSVReader>
-            </div>
-          </div>
-
-          <div className="list row">
-
-            <div className="col-md-6">
-              Select 2 SPD values for the conversion ratio
-              <br/>
-
-              <ul className="list-group">
-                {spds &&
-                  spds.map((spd, index) => (
-                    <li className = {
-                      "list-group-item " + (index === currentIndex ? "active" : "")
-                    }
-                    onClick = {
-                      () => this.setActiveSelection(spd, index)
-                    } key = { index }>
-                      {spd.spd_name}
-                    </li>
-                  ))}
-              </ul>
-            </div>
-            <div className="col-md-6">
-              {currentspd ? (
-                <div>
-                  SPD Detals
-                  <div>
-                    <label>
-                      <strong>User ID : </strong>
-                    </label>{" "}
-                    {currentspd.user_uid}
-                  </div>
-                  <div>
-                    <label>
-                      <strong>Name : </strong>
-                    </label>{" "}
-                    {currentspd.spd_name}
-                  </div>
-                  <div>
-                    <label>
-                      <strong>SPD ID : </strong>
-                    </label>{" "}
-                    {currentspd.spd_id}
-                  </div>
-                  <Link
-                    to={"/spds/" + currentspd.id}
-                    className="badge badge-warning"
-                  >
-                    select
+            <div className="second">
+              <div className="col-md-12 text-center">
+                <form>
+                  <button onClick={this.saveUserInfo} className="btn btn-success button">
+                    Calculate
+                  </button>
+                  <button className="btn btn-success button">
+                  <Link to = {"/saveroom"} style={{ textDecoration: 'none', color: "white"}}>
+                    Save a Room
                   </Link>
-                </div>
-              ) : (
+                  </button>
+                </form>
+              </div>
+            </div>
+        </div>
+        <div className="two">
+        <div className="list row">
+
+          <div className="col-md-6">
+            Select 2 SPD values for the conversion ratio
+            <ul className="list-group">
+              {spds &&
+                spds.map((spd, index) => (
+                  <li className = {
+                    "list-group-item " + (index === currentIndex ? "active" : "")
+                  }
+                  onClick = {
+                    () => this.setActiveSelection(spd, index)
+                  } key = { index }>
+                    {spd.spd_name}
+                  </li>
+                ))}
+            </ul>
+          </div>
+          <div className="col-md-6">
+            {currentspd ? (
+              <div>
+                SPD Detals
                 <div>
-                  <br />
-                  <p>Please click on a spd...</p>
+                  <label>
+                    <strong>User ID : </strong>
+                  </label>{" "}
+                  {currentspd.user_uid}
                 </div>
-              )}
-            </div>
-          </div>
-
-          <div className="second">
-            <div className="col-md-12 text-center">
-              <form>
-                <button onClick={this.saveUserInfo} className="btn btn-success button">
-                  Calculate
-                </button>
-                <button className="btn btn-success button">
-                <Link to = {"/saveroom"} style={{ textDecoration: 'none', color: "white"}}>
-                  Save a Room
+                <div>
+                  <label>
+                    <strong>Name : </strong>
+                  </label>{" "}
+                  {currentspd.spd_name}
+                </div>
+                <div>
+                  <label>
+                    <strong>SPD ID : </strong>
+                  </label>{" "}
+                  {currentspd.spd_id}
+                </div>
+                <Link
+                  to={"/spds/" + currentspd.id}
+                  className="badge badge-warning"
+                >
+                  select
                 </Link>
-                </button>
-              </form>
-            </div>
+              </div>
+            ) : (
+              <div>
+                <br />
+                <p>Please click on a spd...</p>
+              </div>
+            )}
           </div>
-
+        </div>
+        </div>
       </div>
     );
   }
