@@ -13,12 +13,21 @@
 }
 
 .one {
+  background-color: lightgreen;
   float: left;
 }
 
 .two {
+  background-color: yellow;
   margin: 10px;
-  padding-left: 350px;
+  padding-left: 300px;
+}
+
+.three {
+  background-color: aqua;
+  margin: 10px;
+  padding-left: 50px;
+  float: right;
 }
 
 

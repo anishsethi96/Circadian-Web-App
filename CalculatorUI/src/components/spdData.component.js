@@ -82,7 +82,8 @@ export default class AddSPD extends Component {
     console.log(err)
   }
 
-  saveUserInfo() {
+  saveUserInfo(e) {
+    e.preventDefault();
     var data = {
       user_uid: this.state.uid,
       spd_name: this.state.spd_name,
@@ -124,6 +125,14 @@ export default class AddSPD extends Component {
             " Maximum Tabletop Lux to comply with NIGHT threshold " + 2*corneal_lux*2/circadian_potency );
     }
 
+    this.setState({
+      corneal_lux: corneal_lux,
+      circadian_potency: circadian_potency,
+      photopic_power: photopic_power,
+      irradiance: irradiance,
+      total_irradiance: total_irradiance
+    });
+
     alert("CPPR: " + circadian_potency/photopic_power + " CB Potency: " + irradiance/total_irradiance*100 + " LUX " + corneal_lux );
     console.log(circadian_potency/photopic_power);
     console.log(irradiance/total_irradiance*100);
@@ -164,7 +173,6 @@ export default class AddSPD extends Component {
                   </div>
                 </div>
               </div>
-
               <div className="form-group">
                 <label htmlFor="description">SPD Name</label>
                 <input type="text" className="form-control" id="spd_name" required value={this.state.spd_name} onChange={this.onChangeSPDName} name="spd_name" />
@@ -202,6 +210,7 @@ export default class AddSPD extends Component {
               </div>
             </div>
         </div>
+
         <div className="two">
         <div className="list row">
 
@@ -224,7 +233,7 @@ export default class AddSPD extends Component {
           <div className="col-md-6">
             {currentspd ? (
               <div>
-                SPD Detals
+                SPD Details
                 <div>
                   <label>
                     <strong>User ID : </strong>
@@ -258,6 +267,14 @@ export default class AddSPD extends Component {
             )}
           </div>
         </div>
+        </div>
+
+        <div className="three">
+        corneal_lux:  {this.state.corneal_lux} <br/>
+        CPPR:  {circadian_potency/photopic_power} <br/>
+        CB Potency: {irradiance/total_irradiance*100} <br/>
+        Minimum Tabletop Lux to comply with DAY threshold: {2*corneal_lux*20/circadian_potency} <br/>
+        Maximum Tabletop Lux to comply with NIGHT threshold: {2*corneal_lux*2/circadian_potency} <br/>
         </div>
       </div>
     );
