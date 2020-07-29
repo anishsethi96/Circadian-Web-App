@@ -6,6 +6,8 @@ import "./App.css";
 import CreateUser from "./components/createUser.component";
 import LoginUser from "./components/login.component";
 import AddSPD from "./components/spdData.component";
+import AddLuxSPD from "./components/luxspdData.component";
+import AddTableSPD from "./components/tabletopspdData.component";
 import SaveRoom from "./components/saveRoom.component";
 import Home from "./components/home.component";
 
@@ -16,17 +18,27 @@ class App extends Component {
         <div>
           <nav className="navbar navbar-expand navbar-dark bg-dark">
             <a href="/home" className="navbar-brand">
-              Circadian Calculator
+              CIRCADIAN&reg; Lighting Calculator
             </a>
             <div className="navbar-nav mr-auto">
               <li className="nav-item">
                 <Link to={"/app1"} className="nav-link">
-                  Normalized SPD
+                  Light Source Measurement
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link to={"/app2"} className="nav-link">
+                  Eye Level Illumination
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link to={"/app3"} className="nav-link">
+                 Table Top Illumination
                 </Link>
               </li>
               <li className="nav-item">
                 <Link to={"/saveroom"} className="nav-link">
-                  Save Room
+                  Save a room
                 </Link>
               </li>
               <li className="nav-item">
@@ -47,6 +59,8 @@ class App extends Component {
               <Route exact path="/home" component={Home} />
               <Route exact path="/saveroom" component={SaveRoom} />
               <Route exact path="/app1" component={AddSPD} />
+              <Route exact path="/app2" component={AddLuxSPD} />
+              <Route exact path="/app3" component={AddTableSPD} />
               <Route exact path="/login" component={LoginUser} />
               <Route exact path="/create" component={CreateUser} />
             </Switch>
