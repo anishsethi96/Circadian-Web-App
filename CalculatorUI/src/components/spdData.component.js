@@ -161,6 +161,7 @@ export default class AddSPD extends Component {
         </div>
 
         <div className="two ">
+        Data from parent is: {this.props.dataFromParent}
         CPPR:  {circadian_potency/photopic_power} <br/>
         CB Potency: {irradiance/total_irradiance*100} <br/>
         </div>

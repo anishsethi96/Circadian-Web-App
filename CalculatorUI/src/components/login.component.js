@@ -1,5 +1,10 @@
 import React, { Component } from "react";
 import LoginDataService from "../services/login.service";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import AddSPD from "../components/spdData.component";
+import AddLuxSPD from "../components/luxspdData.component";
+import AddTableSPD from "../components/tabletopspdData.component";
+import CreateUser from "../components/createUser.component";
 
 export default class LoginUser extends Component {
   constructor(props) {
@@ -33,6 +38,7 @@ searchUser() {
     password: this.state.password,
   };
 
+  this.props.parentCallback(this.state.searchUser);
   console.log(this.state.searchUser);
 
   LoginDataService.get(this.state.searchUser)
@@ -57,7 +63,23 @@ searchUser() {
       <div className="submit-form">
       {this.state.loginvalue ? (
         <div>
-          <h4>You logged in successfully!</h4>
+        <h2> Please select Application Type </h2>
+        <br/>
+        <button className="btn btn-success" >
+        <Link to = {"/app1"} params={{ testvalue: "hello" }} style={{ textDecoration: 'none', color: "white"}}>
+          Light Source Measurement
+        </Link>
+        </button>
+        <button className="btn btn-success" >
+        <Link to = {"/app2"} style={{ textDecoration: 'none', color: "white"}}>
+          Eye Level Illumination
+        </Link>
+        </button>
+        <button className="btn btn-success" >
+        <Link to = {"/app3"} style={{ textDecoration: 'none', color: "white"}}>
+          Table Top Illumination
+        </Link>
+        </button>
         </div>
       ) : (
         <div className="submit-form">
@@ -71,7 +93,13 @@ searchUser() {
               <input type="password" className="form-control" id="password" required value={this.state.password} onChange={this.onChangePassword} name="password" />
             </div>
             <button onClick={this.searchUser} className="btn btn-success">
-              login
+              Login
+            </button>
+
+            <button className="btn btn-success button">
+            <Link to = {"/create"} style={{ textDecoration: 'none', color: "white"}}>
+              Sign Up
+            </Link>
             </button>
             </div>
             </div>

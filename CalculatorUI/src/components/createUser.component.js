@@ -104,7 +104,7 @@ export default class CreateUser extends Component {
             </div>
 
             <div className="form-group">
-              <label htmlFor="title">Company</label>
+              <label htmlFor="title">Company / Organization</label>
               <input type="text" className="form-control" id="company_name" required value={this.state.company_name} onChange={this.onChangeCompany} name="company_name"/>
             </div>
 

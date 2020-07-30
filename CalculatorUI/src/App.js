@@ -9,15 +9,20 @@ import AddSPD from "./components/spdData.component";
 import AddLuxSPD from "./components/luxspdData.component";
 import AddTableSPD from "./components/tabletopspdData.component";
 import SaveRoom from "./components/saveRoom.component";
-import Home from "./components/home.component";
 
 class App extends Component {
+
+  state = { message: "" }
+  callbackFunction = (childData) => {
+        this.setState({message: "User ID - " + childData})
+  }
+
   render() {
     return (
       <Router>
         <div>
           <nav className="navbar navbar-expand navbar-dark bg-dark">
-            <a href="/home" className="navbar-brand">
+            <a href="/app" className="navbar-brand">
               CIRCADIAN&reg; Lighting Calculator
             </a>
             <div className="navbar-nav mr-auto">
@@ -41,22 +46,15 @@ class App extends Component {
                   Save a room
                 </Link>
               </li>
-              <li className="nav-item">
-                <Link to={"/create"} className="nav-link">
-                  Sign Up
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link to={"/login"} className="nav-link">
-                  Login
-                </Link>
+              <li className="nav-item nav-link">
+                {this.state.message}
               </li>
             </div>
           </nav>
 
           <div className="container mt-3">
+            <LoginUser parentCallback = {this.callbackFunction}/>
             <Switch>
-              <Route exact path="/home" component={Home} />
               <Route exact path="/saveroom" component={SaveRoom} />
               <Route exact path="/app1" component={AddSPD} />
               <Route exact path="/app2" component={AddLuxSPD} />
