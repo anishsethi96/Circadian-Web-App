@@ -2,9 +2,12 @@ import React, { Component } from "react";
 import AddSPDDataService from "../services/sdpData.service";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { CSVReader } from 'react-papaparse'
+import { LineChart, PieChart } from 'react-chartkick'
 import SaveRoom from "../components/saveRoom.component";
 import SelectSPDService from "../services/selectSPD.service";
 import "../App.css";
+import 'chart.js'
+
 
 var irradiance = 0;
 var total_irradiance = 0;
@@ -22,12 +25,13 @@ export default class AddSPD extends Component {
     this.onChangeSPDName = this.onChangeSPDName.bind(this);
     this.onChangeFirstName = this.onChangeFirstName.bind(this);
     this.saveUserInfo = this.saveUserInfo.bind(this);
-    this.searchSPD = this.searchSPD.bind(this);
+    this.handleDropdownChange = this.handleDropdownChange.bind(this);
 
     this.state = {
       uid: "",
       spd_name: "",
       spd_value: {},
+      selectValue: "",
       submitted: false
     };
   }
@@ -62,6 +66,16 @@ export default class AddSPD extends Component {
     console.log(err)
   }
 
+  convertRatio(){
+    console.log(this.state.selectValue);
+
+    for (var i = 380; i < 781; i++)
+    {
+      this.state.spd_value[i] = Number(this.state.spd_value[i]) * Number(this.state.selectValue);
+    }
+    return this.state.spd_value;
+  }
+
   saveUserInfo(e) {
     e.preventDefault();
     var data = {
@@ -72,6 +86,8 @@ export default class AddSPD extends Component {
 
     AddSPDDataService.create(data)
     this.setState({submitted: true});
+
+    this.state.spd_value = this.convertRatio();
 
     for (var i = 380; i < 781; i++)
     {
@@ -97,23 +113,12 @@ export default class AddSPD extends Component {
       total_irradiance: total_irradiance
     });
 
-    alert("CPPR: " + circadian_potency/photopic_power + " CB Potency: " + irradiance/total_irradiance*100);
     console.log(circadian_potency/photopic_power);
     console.log(irradiance/total_irradiance*100);
-
   }
 
-  searchSPD() {
-    SelectSPDService.get(this.state.uid)
-      .then(response => {
-        this.setState({
-          spds: response.data
-        });
-        console.log(response.data);
-      })
-      .catch(e => {
-        console.log(e);
-      });
+  handleDropdownChange(e) {
+    this.setState({ selectValue: e.target.value });
   }
 
   render() {
@@ -142,6 +147,18 @@ export default class AddSPD extends Component {
                   <span>Drop CSV file here or click to upload.</span>
                 </CSVReader>
               </div>
+              <div class="dropdown">
+              Select the Unit
+                <div>
+                <select class = "btn button btn-success" id="dropdown" onChange={this.handleDropdownChange}>
+                  <option value = "100"> W/m² </option>
+                  <option value = "10"> mW/m² </option>
+                  <option value = "10000"> μW/m </option>
+                  <option value = "1000000"> W/cm² </option>
+                  <option value = "1"> µW/cm² </option>
+                </select>
+                </div>
+              </div>
             </div>
 
             <div className="second">
@@ -164,6 +181,8 @@ export default class AddSPD extends Component {
         Data from parent is: {this.props.dataFromParent}
         CPPR:  {circadian_potency/photopic_power} <br/>
         CB Potency: {irradiance/total_irradiance*100} <br/>
+
+        <LineChart data={this.state.spd_value} />
         </div>
       </div>
     );

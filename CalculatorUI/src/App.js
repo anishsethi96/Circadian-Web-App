@@ -22,7 +22,7 @@ class App extends Component {
       <Router>
         <div>
           <nav className="navbar navbar-expand navbar-dark bg-dark">
-            <a href="/app" className="navbar-brand">
+            <a href="/login" className="navbar-brand">
               CIRCADIAN&reg; Lighting Calculator
             </a>
             <div className="navbar-nav mr-auto">
@@ -46,14 +46,20 @@ class App extends Component {
                   Save a room
                 </Link>
               </li>
-              <li className="nav-item nav-link">
-                {this.state.message}
+              <li className="nav-item">
+                <Link to={"/login"} className="nav-link">
+                  Login
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link to={"/create"} className="nav-link">
+                  Sign Up
+                </Link>
               </li>
             </div>
           </nav>
 
           <div className="container mt-3">
-            <LoginUser parentCallback = {this.callbackFunction}/>
             <Switch>
               <Route exact path="/saveroom" component={SaveRoom} />
               <Route exact path="/app1" component={AddSPD} />

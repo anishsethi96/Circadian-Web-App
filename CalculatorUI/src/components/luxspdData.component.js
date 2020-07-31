@@ -2,9 +2,11 @@ import React, { Component } from "react";
 import AddSPDDataService from "../services/sdpData.service";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { CSVReader } from 'react-papaparse'
+import { LineChart, PieChart } from 'react-chartkick'
 import SaveRoom from "../components/saveRoom.component";
 import SelectSPDService from "../services/selectSPD.service";
 import "../App.css";
+import 'chart.js'
 
 var irradiance = 0;
 var total_irradiance = 0;
@@ -24,7 +26,7 @@ export default class AddSPD extends Component {
     this.onChangeFirstName = this.onChangeFirstName.bind(this);
     this.onChangeSPDValue = this.onChangeSPDValue.bind(this);
     this.saveUserInfo = this.saveUserInfo.bind(this);
-    this.setActiveSelection = this.setActiveSelection.bind(this);
+    this.handleDropdownChange = this.handleDropdownChange.bind(this);
     this.searchSPD = this.searchSPD.bind(this);
 
     this.state = {
@@ -36,6 +38,7 @@ export default class AddSPD extends Component {
       spds: [],
       currentspd: null,
       currentIndex: -1,
+      selectValue: ""
     };
   }
 
@@ -82,6 +85,16 @@ export default class AddSPD extends Component {
     console.log(err)
   }
 
+  convertRatio(){
+    console.log(this.state.selectValue);
+
+    for (var i = 380; i < 781; i++)
+    {
+      this.state.spd_value[i] = Number(this.state.spd_value[i]) * Number(this.state.selectValue);
+    }
+    return this.state.spd_value;
+  }
+
   saveUserInfo(e) {
     e.preventDefault();
     var data = {
@@ -93,6 +106,10 @@ export default class AddSPD extends Component {
 
     AddSPDDataService.create(data)
     this.setState({submitted: true});
+
+    console.log(this.state.spd_value);
+    this.state.spd_value = this.convertRatio();
+    console.log(this.state.spd_value);
 
     for (var i = 380; i < 781; i++)
     {
@@ -133,7 +150,6 @@ export default class AddSPD extends Component {
       total_irradiance: total_irradiance
     });
 
-    alert("CPPR: " + circadian_potency/photopic_power + " CB Potency: " + irradiance/total_irradiance*100 + " LUX " + corneal_lux );
     console.log(circadian_potency/photopic_power);
     console.log(irradiance/total_irradiance*100);
 
@@ -150,6 +166,10 @@ export default class AddSPD extends Component {
       .catch(e => {
         console.log(e);
       });
+  }
+
+  handleDropdownChange(e) {
+    this.setState({ selectValue: e.target.value });
   }
 
   render() {
@@ -183,6 +203,19 @@ export default class AddSPD extends Component {
               </div>
             </div>
 
+            <div class="dropdown">
+            Select the Unit
+              <div>
+              <select class="btn button btn-success" id="dropdown" onChange={this.handleDropdownChange}>
+                <option value = "100"> W/m² </option>
+                <option value = "10"> mW/m² </option>
+                <option value = "10000"> μW/m </option>
+                <option value = "1000000"> W/cm² </option>
+                <option value = "1"> µW/cm² </option>
+              </select>
+              </div>
+            </div>
+
             <div className="second">
               <div className="col-md-12 text-center">
                 <form>
@@ -205,6 +238,8 @@ export default class AddSPD extends Component {
         CB Potency: {irradiance/total_irradiance*100} <br/>
         Minimum Tabletop Lux to comply with DAY threshold: {2*corneal_lux*20/circadian_potency} <br/>
         Maximum Tabletop Lux to comply with NIGHT threshold: {2*corneal_lux*2/circadian_potency} <br/>
+
+        <LineChart data={this.state.spd_value} />
         </div>
       </div>
     );
