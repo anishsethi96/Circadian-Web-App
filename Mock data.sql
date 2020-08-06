@@ -3,11 +3,6 @@ INSERT INTO User_Info VALUES ('test1', 'testpass', 'FTest', 'LTest', 'test@domai
 
 INSERT INTO Rooms VALUES ('App_CIE Room1', 'CIE', 'Application 1', '1199', '6500', '11990');
 
-INSERT INTO Saved_Room VALUES ('AnishRoom1', 'Home', 'Study Room', 'Table', 'App_CIE Room1', '45', '15', '1');
-INSERT INTO Saved_Room VALUES ('AnishRoom1', 'Home2', 'Study Room', 'Table', 'App_CIE Room1', '45', '15', '2'); -- ERROR!
-
-INSERT INTO SPD_Data (User_UID, SPD_Name, SPD_value) VALUES ('erroruser', 'Anish Test SPD', '123');
-
 INSERT INTO SPD_Data (User_UID, SPD_Name, SPD_value) VALUES ('anishsethi96', 'Anish Test SPD', '{"380":"0.000567931235054611",
  "381":"0.0008766367220319266",
  "382":"0.0011822400310217797",
@@ -409,3 +404,8 @@ INSERT INTO SPD_Data (User_UID, SPD_Name, SPD_value) VALUES ('anishsethi96', 'An
  "778":"0",
  "779":"0",
  "780":"0"}');
+
+ INSERT INTO Saved_Room VALUES ('AnishRoom1', 'Home', 'Study Room', 'Table', 'App_CIE Room1', '45', '15', '1');
+ -- INSERT INTO Saved_Room VALUES ('AnishRoom1', 'Home2', 'Study Room', 'Table', 'App_CIE Room1', '45', '15', '2'); -- This will give ERROR due to constraint violaton!
+
+ --INSERT INTO SPD_Data (User_UID, SPD_Name, SPD_value) VALUES ('erroruser', 'Anish Test SPD', '123'); -- This will give ERROR due to constraint violaton!
