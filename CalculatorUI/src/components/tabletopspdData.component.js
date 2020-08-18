@@ -83,9 +83,8 @@ export default class AddSPD extends Component {
       isSelected = true;
       for (var i = 380; i < 781; i++)
       {
-        //conversionRatio[i] = Number(spd1.spd_value[i]) / Number(spd2.spd_value[i]);
+        conversionRatio[i] = Number(spd1[i]) / Number(spd2[i]);
       }
-      console.log("aa")
       console.log(conversionRatio)
     }
     else {
@@ -117,8 +116,13 @@ export default class AddSPD extends Component {
     AddSPDDataService.create(data)
     this.setState({submitted: true});
 
-    for (var i = 380; i < 781; i++)
+    console.log(conversionRatio)
+
+    for (var i = 380; i < 761; i++)
     {
+      console.log(i + this.state.spd_value[i])
+      this.state.spd_value[i] = (Number(this.state.spd_value[i]) * conversionRatio[i]);
+      console.log(i + conversionRatio[i])
       corneal_lux = corneal_lux + (Number(this.state.spd_value[i]) * this.state.lux_level);
       total_irradiance = total_irradiance + Number(this.state.spd_value[i]);
       // Calculate CPPR need to normalize circadian_potency to relative circadian_potency
@@ -144,8 +148,6 @@ export default class AddSPD extends Component {
       console.log("Corneal Lux: " + corneal_lux);
 
       console.log("Circadian irradiance: " + circadian_potency)
-      alert("Minimum Tabletop Lux to comply with DAY threshold " + 2*corneal_lux*20/circadian_potency +
-            " Maximum Tabletop Lux to comply with NIGHT threshold " + 2*corneal_lux*2/circadian_potency );
     }
 
     this.setState({
@@ -156,7 +158,6 @@ export default class AddSPD extends Component {
       total_irradiance: total_irradiance
     });
 
-    alert("CPPR: " + circadian_potency/photopic_power + " CB Potency: " + irradiance/total_irradiance*100 + " LUX " + corneal_lux );
     console.log(circadian_potency/photopic_power);
     console.log(irradiance/total_irradiance*100);
 
