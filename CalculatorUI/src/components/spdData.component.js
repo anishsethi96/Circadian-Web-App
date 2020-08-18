@@ -96,7 +96,7 @@ export default class AddSPD extends Component {
       circadian_potency = circadian_potency + potency_SSD[i-380] * Number(this.state.spd_value[i]);
       photopic_power = photopic_power + photopic_SSD[i-380] * Number(this.state.spd_value[i]);
     }
-    console.log("full irradiance: " + circadian_potency);
+    //console.log("full irradiance: " + circadian_potency);
 
     // Access JSON values needed
     for (i = 438; i < 493; i++)
@@ -104,7 +104,7 @@ export default class AddSPD extends Component {
       irradiance = irradiance + Number(this.state.spd_value[i]);
     }
 
-    console.log("Circadian irradiance: " + circadian_potency)
+    //console.log("Circadian irradiance: " + circadian_potency)
 
     this.setState({
       circadian_potency: circadian_potency,
@@ -113,8 +113,8 @@ export default class AddSPD extends Component {
       total_irradiance: total_irradiance
     });
 
-    console.log(circadian_potency/photopic_power);
-    console.log(irradiance/total_irradiance*100);
+    //console.log(circadian_potency/photopic_power);
+    //console.log(irradiance/total_irradiance*100);
   }
 
   handleDropdownChange(e) {

@@ -89,7 +89,7 @@ export default class SaveRoom extends Component {
     };
 
     SaveRoomDataService.create(data)
-    console.log(data)
+    //console.log(data)
     this.setState({submitted: true});
   }
 

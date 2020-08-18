@@ -85,7 +85,6 @@ export default class AddSPD extends Component {
       {
         conversionRatio[i] = Number(spd1[i]) / Number(spd2[i]);
       }
-      console.log(conversionRatio)
     }
     else {
       console.log("selection made")
@@ -116,20 +115,17 @@ export default class AddSPD extends Component {
     AddSPDDataService.create(data)
     this.setState({submitted: true});
 
-    console.log(conversionRatio)
 
-    for (var i = 380; i < 761; i++)
+    for (var i = 380; i < 781; i++)
     {
-      console.log(i + this.state.spd_value[i])
       this.state.spd_value[i] = (Number(this.state.spd_value[i]) * conversionRatio[i]);
-      console.log(i + conversionRatio[i])
       corneal_lux = corneal_lux + (Number(this.state.spd_value[i]) * this.state.lux_level);
       total_irradiance = total_irradiance + Number(this.state.spd_value[i]);
       // Calculate CPPR need to normalize circadian_potency to relative circadian_potency
       circadian_potency = circadian_potency + potency_SSD[i-380] * Number(this.state.spd_value[i]);
       photopic_power = photopic_power + photopic_SSD[i-380] * Number(this.state.spd_value[i]);
     }
-    console.log("full irradiance: " + circadian_potency);
+    //console.log("full irradiance: " + circadian_potency);
 
     // Access JSON values needed
     for (i = 438; i < 493; i++)
@@ -145,9 +141,9 @@ export default class AddSPD extends Component {
         circadian_potency = circadian_potency + potency_SSD[i-380] * Number(this.state.spd_value[i]);
       }
       corneal_lux = 685*corneal_lux/100
-      console.log("Corneal Lux: " + corneal_lux);
+      //console.log("Corneal Lux: " + corneal_lux);
 
-      console.log("Circadian irradiance: " + circadian_potency)
+      //console.log("Circadian irradiance: " + circadian_potency)
     }
 
     this.setState({
@@ -158,8 +154,8 @@ export default class AddSPD extends Component {
       total_irradiance: total_irradiance
     });
 
-    console.log(circadian_potency/photopic_power);
-    console.log(irradiance/total_irradiance*100);
+    //console.log(circadian_potency/photopic_power);
+    //console.log(irradiance/total_irradiance*100);
 
   }
 
@@ -169,7 +165,7 @@ export default class AddSPD extends Component {
         this.setState({
           spds: response.data
         });
-        console.log(response.data);
+        //console.log(response.data);
       })
       .catch(e => {
         console.log(e);

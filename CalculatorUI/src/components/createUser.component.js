@@ -68,7 +68,7 @@ export default class CreateUser extends Component {
       company_name: this.state.company_name
     };
 
-    console.log(data);
+    //console.log(data);
 
     CreateUserDataService.create(data)
     this.setState({submitted: true});

@@ -38,7 +38,6 @@ searchUser() {
     password: this.state.password,
   };
 
-  // this.props.parentCallback(this.state.searchUser);
   console.log(this.state.searchUser);
 
   LoginDataService.get(this.state.searchUser)
