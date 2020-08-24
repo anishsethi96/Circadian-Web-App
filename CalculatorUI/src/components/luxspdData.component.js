@@ -113,7 +113,11 @@ export default class AddSPD extends Component {
 
     for (var i = 380; i < 781; i++)
     {
-      corneal_lux = corneal_lux + (Number(this.state.spd_value[i]) * this.state.lux_level);
+      if ( this.state.selectValue == "0")
+      {
+        corneal_lux = corneal_lux + (Number(this.state.spd_value[i]) * this.state.lux_level);
+      }
+      corneal_lux = corneal_lux + (Number(this.state.spd_value[i]) * photopic_SSD[i-380]);
       total_irradiance = total_irradiance + Number(this.state.spd_value[i]);
       // Calculate CPPR need to normalize circadian_potency to relative circadian_potency
       circadian_potency = circadian_potency + potency_SSD[i-380] * Number(this.state.spd_value[i]);
@@ -212,6 +216,7 @@ export default class AddSPD extends Component {
                 <option value = "10000"> μW/m </option>
                 <option value = "1000000"> W/cm² </option>
                 <option value = "1"> µW/cm² </option>
+                <option value = "0"> Normalized </option>
               </select>
               </div>
             </div>
