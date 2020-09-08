@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import AddSPDDataService from "../services/sdpData.service";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { CSVReader } from 'react-papaparse'
-import { LineChart, PieChart } from 'react-chartkick'
+import { LineChart } from 'react-chartkick'
 import SaveRoom from "../components/saveRoom.component";
 import SelectSPDService from "../services/selectSPD.service";
 import "../App.css";
@@ -140,18 +140,19 @@ export default class AddSPD extends Component {
       }
       corneal_lux = 685*corneal_lux/100
       //console.log("Corneal Lux: " + corneal_lux);
-
       //console.log("Circadian irradiance: " + circadian_potency)
-      alert("Minimum Tabletop Lux to comply with DAY threshold " + 2*corneal_lux*20/circadian_potency +
-            " Maximum Tabletop Lux to comply with NIGHT threshold " + 2*corneal_lux*2/circadian_potency );
     }
 
     this.setState({
-      corneal_lux: corneal_lux,
       circadian_potency: circadian_potency,
       photopic_power: photopic_power,
       irradiance: irradiance,
-      total_irradiance: total_irradiance
+      total_irradiance: total_irradiance,
+      corneal_lux: Math.round(corneal_lux * 100) / 100,
+      CPPR:  Math.round(circadian_potency/photopic_power * 100) / 100,
+      circadian_blue: Math.round(irradiance/total_irradiance*100 * 100) / 100,
+      MinTabletopLux: Math.round(2*corneal_lux*20/circadian_potency * 100) / 100,
+      MaxTabletopLux: Math.round(2*corneal_lux*2/circadian_potency * 100) / 100
     });
 
     //console.log(circadian_potency/photopic_power);
@@ -179,6 +180,7 @@ export default class AddSPD extends Component {
   render() {
     return (
       <div className="container">
+      <h3> Eye-Level (Corneal) Measurement </h3>
         <div className="one">
             <div>
               <div className="form-group">
@@ -191,7 +193,7 @@ export default class AddSPD extends Component {
               </div>
 
               <div className="form-group">
-                <label htmlFor="title">Lux</label>
+                <label htmlFor="title">Lux (Required for normalized data only)</label>
                 <input type="text" className="form-control" id="lux_level" required value={this.state.lux_level} onChange={this.onChangeSPDValue} name="lux_level"/>
               </div>
 
@@ -239,12 +241,12 @@ export default class AddSPD extends Component {
 
         <div className="two">
         corneal_lux:  {this.state.corneal_lux} <br/>
-        CPPR:  {circadian_potency/photopic_power} <br/>
-        CB Potency: {irradiance/total_irradiance*100} <br/>
-        Minimum Tabletop Lux to comply with DAY threshold: {2*corneal_lux*20/circadian_potency} <br/>
-        Maximum Tabletop Lux to comply with NIGHT threshold: {2*corneal_lux*2/circadian_potency} <br/>
+        CPPR:  {this.state.CPPR} <br/>
+        % Circadian Blue: {this.state.circadian_blue} <br/>
+        Minimum Tabletop Lux to comply with DAY threshold: {this.state.MinTabletopLux} <br/>
+        Maximum Tabletop Lux to comply with NIGHT threshold: {this.state.MaxTabletopLux} <br/>
 
-        <LineChart data={this.state.spd_value} />
+        <LineChart messages={{empty: "No data"}} xtitle="Wavelength in nm" ytitle="Value" data={this.state.spd_value}/>
         </div>
       </div>
     );

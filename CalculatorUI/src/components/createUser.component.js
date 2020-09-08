@@ -77,6 +77,17 @@ export default class CreateUser extends Component {
   render() {
     return (
       <div className="submit-form">
+      {this.state.submitted ? (
+        <div>
+        <h2> Account created </h2>
+        <br/>
+        <button className="btn btn-success button">
+          Login Now
+        </button>
+        </div>
+      ) : (
+      <div className="submit-form">
+        <h3> Create a new free account </h3>
           <div>
             <div className="form-group">
               <label htmlFor="title">Username</label>
@@ -112,6 +123,8 @@ export default class CreateUser extends Component {
               Submit
             </button>
           </div>
+          </div>
+        )}
       </div>
     );
   }

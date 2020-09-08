@@ -82,6 +82,7 @@ searchUser() {
         </div>
       ) : (
         <div className="submit-form">
+          <h3> Login to existing account, or click on Sign Up to establish a new free account </h3>
           <div>
             <div className="form-group">
               <label htmlFor="title">Username</label>

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import AddSPDDataService from "../services/sdpData.service";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { CSVReader } from 'react-papaparse'
-import { LineChart, PieChart } from 'react-chartkick'
+import { LineChart} from 'react-chartkick'
 import SaveRoom from "../components/saveRoom.component";
 import SelectSPDService from "../services/selectSPD.service";
 import "../App.css";
@@ -110,7 +110,9 @@ export default class AddSPD extends Component {
       circadian_potency: circadian_potency,
       photopic_power: photopic_power,
       irradiance: irradiance,
-      total_irradiance: total_irradiance
+      total_irradiance: total_irradiance,
+      CPPR:  Math.round(circadian_potency/photopic_power * 100) / 100,
+      circadian_blue: Math.round(irradiance/total_irradiance*100 * 100) / 100,
     });
 
     //console.log(circadian_potency/photopic_power);
@@ -125,6 +127,7 @@ export default class AddSPD extends Component {
 
     return (
       <div className="container">
+      <h3> Light Source Measurement </h3>
         <div className="one">
             <div>
               <div className="form-group">
@@ -178,11 +181,10 @@ export default class AddSPD extends Component {
         </div>
 
         <div className="two ">
-        Data from parent is: {this.props.dataFromParent}
-        CPPR:  {circadian_potency/photopic_power} <br/>
-        CB Potency: {irradiance/total_irradiance*100} <br/>
+        CPPR:  {this.state.CPPR} <br/>
+        % Circadian Blue: {this.state.circadian_blue} <br/><br/>
 
-        <LineChart data={this.state.spd_value} />
+        <LineChart messages={{empty: "No data"}} xtitle="Wavelength in nm" ytitle="Value" data={this.state.spd_value}/>
         </div>
       </div>
     );

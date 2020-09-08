@@ -96,7 +96,7 @@ export default class SaveRoom extends Component {
   render() {
     return (
       <div className="submit-form">
-        <h2> Enter Room Details </h2>
+        <h3> Enter Room Details </h3>
           <div>
             <div className="form-group">
               <label htmlFor="title">Room UID</label>
@@ -119,7 +119,7 @@ export default class SaveRoom extends Component {
             </div>
 
             <div className="form-group">
-              <label htmlFor="description">Saved Room Type (Dropdown?) </label>
+              <label htmlFor="description">Saved Room Type </label>
               <input type="text" className="form-control" id="savedroom_type" required value={this.state.savedroom_type} onChange={this.onChangeSavedRoom} name="savedroom_type" />
             </div>
 
@@ -134,7 +134,7 @@ export default class SaveRoom extends Component {
             </div>
 
             <div className="form-group">
-              <label htmlFor="description">SPD ID (Dropdown based on UID?) </label>
+              <label htmlFor="description">SPD ID </label>
               <input type="text" className="form-control" id="room_spd_id" required value={this.state.room_spd_id} onChange={this.onChangeSPDID} name="room_spd_id" />
             </div>
 
