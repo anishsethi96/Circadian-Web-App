@@ -36,11 +36,11 @@ class App extends Component {
                   Eye Level Illumination
                 </Link>
               </li>
-              <li className="nav-item">
+              {/* <li className="nav-item">
                 <Link to={"/app3"} className="nav-link">
                  Table Top Illumination
                 </Link>
-              </li>
+              </li>*/}
               <li className="nav-item">
                 <Link to={"/saveroom"} className="nav-link">
                   Save a room
