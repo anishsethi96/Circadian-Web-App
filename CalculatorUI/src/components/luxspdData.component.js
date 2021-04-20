@@ -88,7 +88,7 @@ export default class AddSPD extends Component {
   convertRatio(){
     console.log(this.state.selectValue);
 
-    for (var i = 380; i < 781; i++)
+    for (var i = 380; i < 761; i++)
     {
       this.state.spd_value[i] = Number(this.state.spd_value[i]) * Number(this.state.selectValue);
     }
@@ -111,7 +111,7 @@ export default class AddSPD extends Component {
     this.state.spd_value = this.convertRatio();
     //console.log(this.state.spd_value);
 
-    for (var i = 380; i < 781; i++)
+    for (var i = 380; i < 761; i++)
     {
       if ( this.state.selectValue == "0")
       {

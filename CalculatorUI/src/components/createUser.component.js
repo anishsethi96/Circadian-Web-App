@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import CreateUserDataService from "../services/createUser.service";
 
 export default class CreateUser extends Component {
@@ -81,8 +82,10 @@ export default class CreateUser extends Component {
         <div>
         <h2> Account created </h2>
         <br/>
-        <button className="btn btn-success button">
+        <button className="btn btn-success" >
+        <Link to = {"/login"} params={{ testvalue: "hello" }} style={{ textDecoration: 'none', color: "white"}}>
           Login Now
+        </Link>
         </button>
         </div>
       ) : (

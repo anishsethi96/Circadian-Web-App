@@ -1,6 +1,6 @@
 # Circadian Web Calculator #
 
-Create the Postgres database by running the `DB Setup.sql` file and load basic data points using the `Mock data.sql`
+Create the PostgreSQL database by running the `DB Setup.sql` file and load basic data points using the `Mock data.sql`
 
 Install node modeuls using  `npm install` for both the server side and UI directories.
 
